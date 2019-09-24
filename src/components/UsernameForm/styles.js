@@ -4,15 +4,9 @@ import { screenHeight, screenWidth } from '../../dimensions';
 
 export default StyleSheet.create({
   usernameFormContainer: {
-    borderTopColor: '#000000',
-    borderLeftColor: '#000000',
-    borderRightColor: '#000000',
-    borderBottomColor: '#000000',
+    borderColor: '#000000',
     borderRadius: screenWidth / 50,
-    borderTopWidth: 1,
-    borderLeftWidth: 1,
-    borderRightWidth: 1,
-    borderBottomWidth: 1,
+    borderWidth: 1,
     marginTop: screenHeight / 50,
     marginLeft: screenWidth / 5,
     marginRight: screenWidth / 5,

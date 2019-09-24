@@ -9,7 +9,7 @@ export default function WelcomeScreen() {
   const io = socketIO(baseUrl);
 
   useEffect(() => {
-    io.on('message-from-server', data => console.log('data', data));
+    io.on('welcome-from-server', data => console.log(data));
   }, []);
 
   return (
