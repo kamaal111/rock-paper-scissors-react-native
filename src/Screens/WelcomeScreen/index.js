@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
-import { View, Button } from 'react-native';
 import socketIO from 'socket.io-client';
+
+import UsernameForm from '../../components/UsernameForm';
 
 import { baseUrl } from '../../../config';
 
@@ -12,11 +13,8 @@ export default function WelcomeScreen() {
   }, []);
 
   return (
-    <View>
-      <Button
-        title="Button"
-        onPress={() => io.emit('message-from-client', 'hello from here')}
-      />
-    </View>
+    <>
+      <UsernameForm io={io} />
+    </>
   );
 }

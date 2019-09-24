@@ -9,11 +9,15 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "expo": "^35.0.0",
     "react": "16.8.6",
     "react-native": "0.60.5",
     "react-native-gesture-handler": "^1.4.1",
     "react-navigation": "^4.0.8",
     "react-navigation-stack": "^1.9.0",
+    "react-redux": "^7.1.1",
+    "redux": "^4.0.4",
+    "redux-thunk": "^2.3.0",
     "socket.io-client": "^2.3.0"
   },
   "devDependencies": {
