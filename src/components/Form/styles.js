@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 import { screenHeight, screenWidth } from '../../dimensions';
 
 export default StyleSheet.create({
-  usernameFormContainer: {
+  formContainer: {
     borderColor: '#000000',
     borderRadius: screenWidth / 50,
     borderWidth: 1,
@@ -11,22 +11,22 @@ export default StyleSheet.create({
     marginLeft: screenWidth / 5,
     marginRight: screenWidth / 5,
   },
-  usernameFormText: {
+  formText: {
     marginLeft: screenWidth / 75,
     marginTop: screenWidth / 75,
     color: '#0bd9c4',
     fontSize: screenHeight / 60,
   },
-  usernameForm: {
+  form: {
     height: screenHeight / 30,
     paddingLeft: 10,
     fontSize: screenHeight / 60,
   },
-  usernameFormSubmitContainer: {
+  formSubmitContainer: {
     marginLeft: screenWidth / 2.5,
     marginRight: screenWidth / 2.5,
   },
-  usernameFormSubmitText: {
+  formSubmitText: {
     color: '#0bd9c4',
     fontSize: screenHeight / 50,
     textAlign: 'center',

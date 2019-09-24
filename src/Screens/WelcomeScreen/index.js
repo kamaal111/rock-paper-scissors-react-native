@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import socketIO from 'socket.io-client';
 
@@ -6,9 +7,10 @@ import UsernameForm from '../../components/UsernameForm';
 
 import { setUser } from '../../actions/users';
 
+import styles from './styles';
 import { baseUrl } from '../../../config';
 
-function WelcomeScreen({ setUser: setUserAction }) {
+function WelcomeScreen({ setUser: setUserAction, navigation }) {
   const io = socketIO(baseUrl);
 
   useEffect(() => {
@@ -16,9 +18,14 @@ function WelcomeScreen({ setUser: setUserAction }) {
   }, []);
 
   return (
-    <>
-      <UsernameForm io={io} setUser={setUserAction} />
-    </>
+    <View style={styles.welcomeContainer}>
+      <Text style={styles.titleText}>🔥ROCK PAPER SCISSORS🔥</Text>
+      <UsernameForm
+        io={io}
+        setUser={setUserAction}
+        navigate={navigation.navigate}
+      />
+    </View>
   );
 }
 

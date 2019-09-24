@@ -1,22 +1,30 @@
 import React, { useState, useEffect } from 'react';
-import { View, TouchableOpacity, TextInput, Text, Alert } from 'react-native';
+import { Alert } from 'react-native';
 
-import styles from './styles';
+import Form from '../Form';
 
-export default function UsernameForm({ io, setUser }) {
+export default function UsernameForm({ io, setUser, navigate }) {
   const [usernameForm, setUsernameForm] = useState('');
+
+  const changeUsernameText = text => setUsernameForm(text);
 
   const endUsernameEditting = () => {
     if (usernameForm.length <= 3) {
       return Alert.alert(
         'Name is too short!',
-        'Name should container more 2 characters',
-        [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
+        'Name should contain more 2 characters',
+        [
+          {
+            text: 'OK',
+            onPress: () => console.log('OK Pressed'),
+          },
+        ],
         { cancelable: false },
       );
     }
 
     io.emit('username-from-client', usernameForm);
+    navigate('Lobby');
     return setUsernameForm('');
   };
 
@@ -26,23 +34,13 @@ export default function UsernameForm({ io, setUser }) {
 
   return (
     <>
-      <View style={styles.usernameFormContainer}>
-        <Text style={styles.usernameFormText}>Name:</Text>
-
-        <TextInput
-          editable={true}
-          value={usernameForm}
-          onChangeText={text => setUsernameForm(text)}
-          onEndEditing={endUsernameEditting}
-          style={styles.usernameForm}
-        />
-      </View>
-      <TouchableOpacity
-        onPress={endUsernameEditting}
-        style={styles.usernameFormSubmitContainer}
-      >
-        <Text style={styles.usernameFormSubmitText}>Start</Text>
-      </TouchableOpacity>
+      <Form
+        onEndEditing={endUsernameEditting}
+        onChangeText={changeUsernameText}
+        formText="Name:"
+        endButtonText="START"
+        value={usernameForm}
+      />
     </>
   );
 }
