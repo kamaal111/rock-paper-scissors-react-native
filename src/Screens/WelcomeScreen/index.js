@@ -1,11 +1,14 @@
 import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 import socketIO from 'socket.io-client';
 
 import UsernameForm from '../../components/UsernameForm';
 
+import { setUser } from '../../actions/users';
+
 import { baseUrl } from '../../../config';
 
-export default function WelcomeScreen() {
+function WelcomeScreen({ setUser: setUserAction }) {
   const io = socketIO(baseUrl);
 
   useEffect(() => {
@@ -14,7 +17,12 @@ export default function WelcomeScreen() {
 
   return (
     <>
-      <UsernameForm io={io} />
+      <UsernameForm io={io} setUser={setUserAction} />
     </>
   );
 }
+
+export default connect(
+  null,
+  { setUser },
+)(WelcomeScreen);
