@@ -3,9 +3,8 @@ import { View, TouchableOpacity, TextInput, Text, Alert } from 'react-native';
 
 import styles from './styles';
 
-export default function UsernameForm({ io }) {
+export default function UsernameForm({ io, setUser }) {
   const [usernameForm, setUsernameForm] = useState('');
-  const [username, setUsername] = useState(null);
 
   const endUsernameEditting = () => {
     if (usernameForm.length <= 3) {
@@ -22,7 +21,7 @@ export default function UsernameForm({ io }) {
   };
 
   useEffect(() => {
-    io.on('send-entity-from-server', data => setUsername(data.doc.name));
+    io.on('send-entity-from-server', data => setUser(data.doc));
   }, []);
 
   return (
