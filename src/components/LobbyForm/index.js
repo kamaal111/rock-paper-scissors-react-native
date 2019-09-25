@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Alert } from 'react-native';
 
 import Form from '../Form';
 
-export default function LobbyForm() {
+export default function LobbyForm({ io, setNewLobby }) {
   const [lobbyNameForm, setLobbyNameForm] = useState('');
 
   const changeLobbyNameText = text => setLobbyNameForm(text);
 
   const endLobbyNameEditting = () => {
-    if (lobbyNameForm.length <= 3) {
+    if (lobbyNameForm.length < 3) {
       return Alert.alert(
         'Lobby name is too short!',
         'Lobby name should contain more 2 characters',
@@ -23,10 +23,13 @@ export default function LobbyForm() {
       );
     }
 
+    io.emit('lobby-from-client', lobbyNameForm);
     return setLobbyNameForm('');
   };
 
-  console.log('lobbyNameForm', lobbyNameForm);
+  useEffect(() => {
+    io.on('send-lobby-entity-from-server', data => setNewLobby(data));
+  }, []);
 
   return (
     <>
