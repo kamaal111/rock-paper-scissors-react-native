@@ -23,6 +23,7 @@ module.exports = {
         code: 100,
       },
     ],
+    'global-require': ['off'],
     'jsx-a11y/accessible-emoji': ['off'],
     'prefer-promise-reject-errors': ['off'],
     'react/jsx-filename-extension': ['off'],
