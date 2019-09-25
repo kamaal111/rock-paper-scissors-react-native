@@ -4,8 +4,8 @@ import { screenHeight, screenWidth } from '../../dimensions';
 import {
   mediumFontSize,
   primaryColor,
-  smallFontSize,
   secondaryColor,
+  largeFontSize,
 } from '../../theme';
 
 export default StyleSheet.create({
@@ -22,10 +22,14 @@ export default StyleSheet.create({
     fontSize: mediumFontSize,
     color: primaryColor,
   },
+  scoreText: {
+    fontSize: largeFontSize,
+    color: primaryColor,
+  },
   activeUserText: {
     marginTop: screenHeight / 50,
     color: primaryColor,
-    fontSize: smallFontSize,
+    fontSize: mediumFontSize,
   },
   assetImagesContainer: {
     flexDirection: 'row',
