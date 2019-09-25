@@ -1,12 +1,10 @@
 import React, { useEffect } from 'react';
 import { Text, View, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
-import socketIO from 'socket.io-client';
 
 import LobbyForm from '../../components/LobbyForm';
 import Lobby from '../../components/Lobby';
 
-import { baseUrl } from '../../../config';
 import { setNewLobby, getAllLobbies } from '../../actions/lobbies';
 
 import styles from './styles';
@@ -16,8 +14,9 @@ function LobbyScreen({
   lobbies,
   setNewLobby: setNewLobbyAction,
   getAllLobbies: getAllLobbiesAction,
+  navigation,
 }) {
-  const io = socketIO(baseUrl);
+  const { io } = navigation.state.params;
 
   useEffect(() => {
     io.emit('all-lobbies-request-from-client');
@@ -52,7 +51,15 @@ function LobbyScreen({
           </View>
         ) : (
           lobbies.lobbyList.map(({ id, name, score }) => (
-            <Lobby id={id} name={name} score={score} styles={lobbyStyles} />
+            <Lobby
+              key={id}
+              io={io}
+              id={id}
+              name={name}
+              score={score}
+              styles={lobbyStyles}
+              navigate={navigation.navigate}
+            />
           ))
         )}
       </View>

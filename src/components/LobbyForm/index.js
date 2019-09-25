@@ -16,7 +16,6 @@ export default function LobbyForm({ io, setNewLobby }) {
         [
           {
             text: 'OK',
-            onPress: () => console.log('OK Pressed'),
           },
         ],
         { cancelable: false },
@@ -29,6 +28,7 @@ export default function LobbyForm({ io, setNewLobby }) {
 
   useEffect(() => {
     io.on('send-lobby-entity-from-server', data => setNewLobby(data));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

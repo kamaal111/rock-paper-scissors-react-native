@@ -1,11 +1,10 @@
 import React from 'react';
 import { TouchableOpacity, Text } from 'react-native';
 
-export default function Lobby({ id, name, score, styles }) {
+export default function Lobby({ io, id, name, score, navigate, styles }) {
   return (
     <TouchableOpacity
-      key={id}
-      onPressIn={() => console.log('id', id)}
+      onPressIn={() => navigate('Game', { io, id })}
       style={styles.lobbyContainer}
     >
       <Text style={styles.lobbyText}>{name}</Text>

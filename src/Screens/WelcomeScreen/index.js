@@ -14,7 +14,9 @@ function WelcomeScreen({ setUser: setUserAction, navigation }) {
   const io = socketIO(baseUrl);
 
   useEffect(() => {
+    // eslint-disable-next-line no-console
     io.on('welcome-from-server', data => console.log(data));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
