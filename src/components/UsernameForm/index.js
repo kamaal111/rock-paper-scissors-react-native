@@ -16,7 +16,6 @@ export default function UsernameForm({ io, setUser, navigate }) {
         [
           {
             text: 'OK',
-            onPress: () => console.log('OK Pressed'),
           },
         ],
         { cancelable: false },
@@ -24,12 +23,13 @@ export default function UsernameForm({ io, setUser, navigate }) {
     }
 
     io.emit('username-from-client', usernameForm);
-    navigate('Lobby');
+    navigate('Lobby', { io });
     return setUsernameForm('');
   };
 
   useEffect(() => {
     io.on('send-user-entity-from-server', data => setUser(data.doc));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
