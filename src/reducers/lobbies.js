@@ -4,12 +4,22 @@ const initialState = {
   lobbyList: [],
 };
 
+const sortByNewToOld = (firstElement, secondElement) => {
+  return secondElement.id - firstElement.id;
+};
+
 export default (state = initialState, { type, payload }) => {
   switch (type) {
     case SET_NEW_LOBBY:
-      return { ...state, lobbyList: [payload, ...state.lobbyList] };
+      return {
+        ...state,
+        lobbyList: state.lobbyList.concat(payload).sort(sortByNewToOld),
+      };
     case GET_ALL_LOBBIES:
-      return { ...state, lobbyList: payload };
+      return {
+        ...state,
+        lobbyList: payload.sort(sortByNewToOld),
+      };
     default:
       return state;
   }

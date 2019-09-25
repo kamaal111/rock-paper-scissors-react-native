@@ -3,8 +3,10 @@ import { Text, View, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import socketIO from 'socket.io-client';
 
-import { baseUrl } from '../../../config';
 import LobbyForm from '../../components/LobbyForm';
+import Lobby from '../../components/Lobby';
+
+import { baseUrl } from '../../../config';
 import { setNewLobby, getAllLobbies } from '../../actions/lobbies';
 
 import styles from './styles';
@@ -22,6 +24,11 @@ function LobbyScreen({
     io.on('all-lobbies-from-server', data => getAllLobbiesAction(data));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const lobbyStyles = {
+    lobbyContainer: styles.lobbyContainer,
+    lobbyText: styles.lobbyText,
+  };
 
   return (
     <ScrollView>
@@ -44,17 +51,9 @@ function LobbyScreen({
             <Text>Please create one to play</Text>
           </View>
         ) : (
-          <>
-            {lobbies.lobbyList.map(({ id, name, score }) => (
-              <View key={id} style={styles.lobbyContainer}>
-                <Text style={styles.lobbyText}>{name}</Text>
-                <Text style={styles.lobbyText}>{score}</Text>
-                <Text style={styles.lobbyText}>
-                  {`Players playing ${'0/2'}`}
-                </Text>
-              </View>
-            ))}
-          </>
+          lobbies.lobbyList.map(({ id, name, score }) => (
+            <Lobby id={id} name={name} score={score} styles={lobbyStyles} />
+          ))
         )}
       </View>
     </ScrollView>
