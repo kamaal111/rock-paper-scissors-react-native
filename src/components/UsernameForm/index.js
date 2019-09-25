@@ -9,7 +9,7 @@ export default function UsernameForm({ io, setUser, navigate }) {
   const changeUsernameText = text => setUsernameForm(text);
 
   const endUsernameEditting = () => {
-    if (usernameForm.length <= 3) {
+    if (usernameForm.length < 3) {
       return Alert.alert(
         'Name is too short!',
         'Name should contain more 2 characters',
@@ -29,7 +29,7 @@ export default function UsernameForm({ io, setUser, navigate }) {
   };
 
   useEffect(() => {
-    io.on('send-entity-from-server', data => setUser(data.doc));
+    io.on('send-user-entity-from-server', data => setUser(data.doc));
   }, []);
 
   return (
