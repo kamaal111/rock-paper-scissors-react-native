@@ -21,6 +21,7 @@ function LobbyScreen({
   useEffect(() => {
     io.emit('all-lobbies-request-from-client');
     io.on('all-lobbies-from-server', data => getAllLobbiesAction(data));
+    io.on('user-in-lobby-from-server', data => getAllLobbiesAction(data));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -50,13 +51,14 @@ function LobbyScreen({
             <Text>Please create one to play</Text>
           </View>
         ) : (
-          lobbies.lobbyList.map(({ id, name, score }) => (
+          lobbies.lobbyList.map(({ id, name, score, users: lobbyUsers }) => (
             <Lobby
               key={id}
               io={io}
               id={id}
               name={name}
               score={score}
+              amountOfUsers={lobbyUsers.length}
               styles={lobbyStyles}
               navigate={navigation.navigate}
             />

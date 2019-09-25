@@ -15,7 +15,9 @@ import AppNavigator from './src/AppNavigator';
 import store from './src/store';
 
 YellowBox.ignoreWarnings([
-  'Unrecognized WebSocket connection option(s) `agent`, `perMessageDeflate`, `pfx`, `key`, `passphrase`, `cert`, `ca`, `ciphers`, `rejectUnauthorized`. Did you mean to put these under `headers`?',
+  'Unrecognized WebSocket connection option(s) `agent`, `perMessageDeflate`,' +
+    ' `pfx`, `key`, `passphrase`, `cert`, `ca`, `ciphers`, `rejectUnauthorized`.' +
+    ' Did you mean to put these under `headers`?',
 ]);
 
 export default function App() {

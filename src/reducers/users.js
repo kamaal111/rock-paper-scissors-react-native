@@ -1,6 +1,8 @@
 import { SET_USER } from '../actions/users';
 
-const initialState = { activeUser: null };
+const initialState = {
+  activeUser: null,
+};
 
 export default (state = initialState, { type, payload }) => {
   switch (type) {
