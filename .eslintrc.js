@@ -23,7 +23,6 @@ module.exports = {
         code: 100,
       },
     ],
-    'react-hooks/exhaustive-deps': ['off'],
     'prefer-promise-reject-errors': ['off'],
     'react/jsx-filename-extension': ['off'],
     'react/prop-types': ['off'],
