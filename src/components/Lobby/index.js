@@ -1,8 +1,8 @@
 import React from 'react';
 import { TouchableOpacity, Text, View } from 'react-native';
 
-const Viewer = ({ children, io, id, amountOfUsers, navigate, styles }) =>
-  amountOfUsers < 2 ? (
+function Viewer({ children, io, id, amountOfUsers, navigate, styles }) {
+  return amountOfUsers < 2 ? (
     <TouchableOpacity
       onPressIn={() => navigate('Game', { io, id })}
       style={styles}
@@ -12,6 +12,7 @@ const Viewer = ({ children, io, id, amountOfUsers, navigate, styles }) =>
   ) : (
     <View style={styles}>{children}</View>
   );
+}
 
 export default function Lobby({
   io,
