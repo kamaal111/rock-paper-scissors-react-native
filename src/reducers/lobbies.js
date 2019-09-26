@@ -14,7 +14,10 @@ export default (state = initialState, { type, payload }) => {
       return {
         ...state,
         lobbyList: state.lobbyList
-          .concat({ ...payload, users: [] })
+          .concat({
+            ...payload,
+            users: typeof payload.users === 'undefined' ? [] : payload.users,
+          })
           .sort(sortByNewToOld),
       };
     case GET_ALL_LOBBIES:
