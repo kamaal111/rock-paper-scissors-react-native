@@ -40,6 +40,7 @@ function GameScreen({ users, lobbies, navigation }) {
   const [turn, setTurn] = useState(true);
   const [choice, setChoice] = useState(null);
   const [opponentsChoice, setOpponentsChoice] = useState(null);
+  const [score, setScore] = useState('0-0');
 
   const { io, id: lobbyId } = navigation.state.params;
 
@@ -69,6 +70,11 @@ function GameScreen({ users, lobbies, navigation }) {
       lobbyId,
       userId: users.activeUser.id,
     });
+
+    io.on(`user-in-game-${lobbyId}-choice-from-server`, () =>
+      setOpponentsChoice(null),
+    );
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -76,11 +82,14 @@ function GameScreen({ users, lobbies, navigation }) {
     io.on(`user-in-game-${lobbyId}-winner-from-server`, data => {
       if (data.winner === null) return null;
       if (data.winner === 'DRAW') {
+        setTurn(true);
         return setOpponentsChoice(assetChoice(choice));
       }
 
       const [, winningChoice] = data.winner.split('-');
 
+      setScore(data.score);
+      setTurn(true);
       if (assetChoice(choice) === winningChoice) {
         return setOpponentsChoice(winningCondition(assetChoice(choice)));
       }
@@ -106,25 +115,29 @@ function GameScreen({ users, lobbies, navigation }) {
     <View style={styles.screenContainer}>
       <View style={styles.gameContainer}>
         <Text style={styles.gameTitle}>🔥ROCK PAPER SCISSORS🔥</Text>
-        <Text style={styles.scoreText}>{currentLobby.score}</Text>
+        <Text style={styles.scoreText}>{score}</Text>
         <Text style={styles.activeUserText}>{users.activeUser.name}</Text>
-        <View style={styles.assetImagesContainer}>
-          {assets.map((asset, i) => (
-            <ImageView
-              key={i}
-              io={io}
-              turn={turn}
-              setTurn={setTurn}
-              userId={users.activeUser.id}
-              lobbyId={lobbyId}
-              setChoice={setChoice}
-              assetId={i}
-              chosenAsset={assetChoice(i)}
-            >
-              <Image source={asset} style={styles.assetImage} />
-            </ImageView>
-          ))}
-        </View>
+        {turn === false ? (
+          <></>
+        ) : (
+          <View style={styles.assetImagesContainer}>
+            {assets.map((asset, i) => (
+              <ImageView
+                key={i}
+                io={io}
+                turn={turn}
+                setTurn={setTurn}
+                userId={users.activeUser.id}
+                lobbyId={lobbyId}
+                setChoice={setChoice}
+                assetId={i}
+                chosenAsset={assetChoice(i)}
+              >
+                <Image source={asset} style={styles.assetImage} />
+              </ImageView>
+            ))}
+          </View>
+        )}
         {choice === null ? (
           <></>
         ) : (
@@ -142,11 +155,6 @@ function GameScreen({ users, lobbies, navigation }) {
                 style={styles.assetImage}
               />
             )}
-            <View style={styles.assetImagesContainer}>
-              {assets.map((asset, i) => (
-                <Image key={i} source={asset} style={styles.assetImage} />
-              ))}
-            </View>
             <Text style={styles.activeUserText}>{opponent.name}</Text>
           </>
         )}
