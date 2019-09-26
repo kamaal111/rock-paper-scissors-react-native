@@ -4,6 +4,8 @@ import React, { useEffect, useState } from 'react';
 import { Text, View, Image, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 
+import { getAllUsers } from '../../actions/users';
+
 import styles from './styles';
 
 function ImageView({
@@ -36,7 +38,12 @@ function ImageView({
   );
 }
 
-function GameScreen({ users, lobbies, navigation }) {
+function GameScreen({
+  users,
+  lobbies,
+  getAllUsers: getAllUsersAction,
+  navigation,
+}) {
   const [turn, setTurn] = useState(true);
   const [choice, setChoice] = useState(null);
   const [opponentsChoice, setOpponentsChoice] = useState(null);
@@ -88,16 +95,41 @@ function GameScreen({ users, lobbies, navigation }) {
 
       const [, winningChoice] = data.winner.split('-');
 
-      setScore(data.score);
-      setTurn(true);
+      const { incremented, other } = data.doc;
+
       if (assetChoice(choice) === winningChoice) {
-        return setOpponentsChoice(winningCondition(assetChoice(choice)));
+        if (other.id === users.activeUser.id) {
+          setScore(`${other.lobbyScore}-${incremented.lobbyScore}`);
+        } else {
+          setScore(`${incremented.lobbyScore}-${other.lobbyScore}`);
+        }
+        setOpponentsChoice(winningCondition(assetChoice(choice)));
+        return setTimeout(() => {
+          setTurn(true);
+        }, 3000);
       }
 
-      return setOpponentsChoice(winningChoice);
+      if (other.id === users.activeUser.id) {
+        setScore(`${other.lobbyScore}-${incremented.lobbyScore}`);
+      } else {
+        setScore(`${incremented.lobbyScore}-${other.lobbyScore}`);
+      }
+
+      setOpponentsChoice(winningChoice);
+      return setTimeout(() => {
+        setTurn(true);
+      }, 3000);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [choice]);
+
+  useEffect(() => {
+    if (score.split('-').some(point => Number(point) > 4)) {
+      io.emit('get-all-users-from-client', 'give them to me');
+      io.on('get-all-users-from-server', data => getAllUsersAction(data.doc));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [score]);
 
   const currentLobby = lobbies.lobbyList.find(lobby => lobby.id === lobbyId);
   const opponent =
@@ -113,56 +145,76 @@ function GameScreen({ users, lobbies, navigation }) {
 
   return (
     <View style={styles.screenContainer}>
-      <View style={styles.gameContainer}>
-        <Text style={styles.gameTitle}>🔥ROCK PAPER SCISSORS🔥</Text>
-        <Text style={styles.scoreText}>{score}</Text>
-        <Text style={styles.activeUserText}>{users.activeUser.name}</Text>
-        {turn === false ? (
-          <></>
-        ) : (
-          <View style={styles.assetImagesContainer}>
-            {assets.map((asset, i) => (
-              <ImageView
-                key={i}
-                io={io}
-                turn={turn}
-                setTurn={setTurn}
-                userId={users.activeUser.id}
-                lobbyId={lobbyId}
-                setChoice={setChoice}
-                assetId={i}
-                chosenAsset={assetChoice(i)}
-              >
-                <Image source={asset} style={styles.assetImage} />
-              </ImageView>
-            ))}
-          </View>
-        )}
-        {choice === null ? (
-          <></>
-        ) : (
-          <Image source={assets[choice]} style={styles.assetImage} />
-        )}
-        {currentLobby.users.length < 2 ? (
-          <></>
-        ) : (
-          <>
-            {opponentsChoice === null ? (
-              <></>
-            ) : (
-              <Image
-                source={assets[choiceToIndex(opponentsChoice)]}
-                style={styles.assetImage}
-              />
-            )}
-            <Text style={styles.activeUserText}>{opponent.name}</Text>
-          </>
-        )}
-      </View>
+      {score.split('-').some(point => Number(point) > 4) ? (
+        <View>
+          {users.allUsers === null ? (
+            <Text>loading...</Text>
+          ) : (
+            <View>
+              {users.allUsers.map(user => (
+                <View key={user.id}>
+                  <Text>{user.name}</Text>
+                  <Text>{user.score}</Text>
+                </View>
+              ))}
+            </View>
+          )}
+        </View>
+      ) : (
+        <View style={styles.gameContainer}>
+          <Text style={styles.gameTitle}>🔥ROCK PAPER SCISSORS🔥</Text>
+          <Text style={styles.scoreText}>{score}</Text>
+          <Text style={styles.activeUserText}>{users.activeUser.name}</Text>
+          {turn === false ? (
+            <></>
+          ) : (
+            <View style={styles.assetImagesContainer}>
+              {assets.map((asset, i) => (
+                <ImageView
+                  key={i}
+                  io={io}
+                  turn={turn}
+                  setTurn={setTurn}
+                  userId={users.activeUser.id}
+                  lobbyId={lobbyId}
+                  setChoice={setChoice}
+                  assetId={i}
+                  chosenAsset={assetChoice(i)}
+                >
+                  <Image source={asset} style={styles.assetImage} />
+                </ImageView>
+              ))}
+            </View>
+          )}
+          {choice === null ? (
+            <></>
+          ) : (
+            <Image source={assets[choice]} style={styles.assetImage} />
+          )}
+          {currentLobby.users.length < 2 ? (
+            <></>
+          ) : (
+            <>
+              {opponentsChoice === null ? (
+                <></>
+              ) : (
+                <Image
+                  source={assets[choiceToIndex(opponentsChoice)]}
+                  style={styles.assetImage}
+                />
+              )}
+              <Text style={styles.activeUserText}>{opponent.name}</Text>
+            </>
+          )}
+        </View>
+      )}
     </View>
   );
 }
 
 const mapStateToProps = ({ users, lobbies }) => ({ users, lobbies });
 
-export default connect(mapStateToProps)(GameScreen);
+export default connect(
+  mapStateToProps,
+  { getAllUsers },
+)(GameScreen);
