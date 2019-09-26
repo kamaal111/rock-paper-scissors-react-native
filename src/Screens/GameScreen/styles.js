@@ -6,6 +6,7 @@ import {
   primaryColor,
   secondaryColor,
   largeFontSize,
+  borderRadius,
 } from '../../theme';
 
 export default StyleSheet.create({
@@ -38,5 +39,24 @@ export default StyleSheet.create({
     margin: screenWidth / 50,
     height: screenWidth / 5,
     width: screenWidth / 5,
+  },
+
+  leaderBoardContainer: {
+    marginTop: screenHeight / 15,
+    justifyContent: 'center',
+    alignContent: 'center',
+  },
+  leaderBoardTextContainer: {
+    borderRadius,
+    borderColor: primaryColor,
+    borderWidth: 1,
+    marginTop: screenHeight / 50,
+    marginRight: screenWidth / 10,
+    marginLeft: screenWidth / 10,
+  },
+  leaderBoardText: {
+    margin: screenHeight / 50,
+    color: primaryColor,
+    fontSize: mediumFontSize,
   },
 });

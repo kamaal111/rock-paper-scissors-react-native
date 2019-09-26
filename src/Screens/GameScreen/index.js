@@ -1,7 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 
 import React, { useEffect, useState } from 'react';
-import { Text, View, Image, TouchableOpacity } from 'react-native';
+import { Text, View, Image, TouchableOpacity, Button } from 'react-native';
 import { connect } from 'react-redux';
 
 import { getAllUsers } from '../../actions/users';
@@ -106,7 +106,7 @@ function GameScreen({
         setOpponentsChoice(winningCondition(assetChoice(choice)));
         return setTimeout(() => {
           setTurn(true);
-        }, 3000);
+        }, 1500);
       }
 
       if (other.id === users.activeUser.id) {
@@ -118,7 +118,7 @@ function GameScreen({
       setOpponentsChoice(winningChoice);
       return setTimeout(() => {
         setTurn(true);
-      }, 3000);
+      }, 1500);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [choice]);
@@ -146,18 +146,28 @@ function GameScreen({
   return (
     <View style={styles.screenContainer}>
       {score.split('-').some(point => Number(point) > 4) ? (
-        <View>
+        <View style={styles.leaderBoardContainer}>
+          <Button
+            title="Go Back To Lobby"
+            onPress={() => navigation.navigate('Lobby')}
+          />
+          <Text style={styles.gameTitle}>Leaderboard</Text>
+          <Text style={styles.gameTitle}>
+            {score.split('-')[0] === '5' ? '🎊 You Won 🎊' : '😭 You Lost 😭'}
+          </Text>
           {users.allUsers === null ? (
             <Text>loading...</Text>
           ) : (
-            <View>
+            <>
               {users.allUsers.map(user => (
-                <View key={user.id}>
-                  <Text>{user.name}</Text>
-                  <Text>{user.score}</Text>
+                <View key={user.id} style={styles.leaderBoardTextContainer}>
+                  <Text style={styles.activeUserText}>{user.name}</Text>
+                  <Text style={styles.activeUserText}>
+                    {`score: ${user.score}`}
+                  </Text>
                 </View>
               ))}
-            </View>
+            </>
           )}
         </View>
       ) : (
