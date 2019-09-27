@@ -18,14 +18,16 @@ export default function Leaderboard({ styles, navigate, score, allUsers }) {
         <Text>loading...</Text>
       ) : (
         <>
-          {allUsers.map(user => (
-            <View key={user.id} style={styles.leaderBoardTextContainer}>
-              <Text style={styles.leaderBoardText}>{user.name}</Text>
-              <Text style={styles.leaderBoardText}>
-                {`score: ${user.score}`}
-              </Text>
-            </View>
-          ))}
+          {allUsers
+            .sort((userOne, userTwo) => userTwo.score - userOne.score)
+            .map(user => (
+              <View key={user.id} style={styles.leaderBoardTextContainer}>
+                <Text style={styles.leaderBoardText}>{user.name}</Text>
+                <Text style={styles.leaderBoardText}>
+                  {`score: ${user.score}`}
+                </Text>
+              </View>
+            ))}
         </>
       )}
     </View>
