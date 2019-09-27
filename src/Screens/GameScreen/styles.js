@@ -7,6 +7,8 @@ import {
   secondaryColor,
   largeFontSize,
   borderRadius,
+  tertiaryColor,
+  quaternaryColor,
 } from '../../theme';
 
 export default StyleSheet.create({
@@ -21,15 +23,15 @@ export default StyleSheet.create({
   },
   gameTitle: {
     fontSize: mediumFontSize,
-    color: primaryColor,
+    color: tertiaryColor,
   },
   scoreText: {
     fontSize: largeFontSize,
-    color: primaryColor,
+    color: tertiaryColor,
   },
   activeUserText: {
     marginTop: screenHeight / 50,
-    color: primaryColor,
+    color: tertiaryColor,
     fontSize: mediumFontSize,
   },
   assetImagesContainer: {
@@ -44,7 +46,7 @@ export default StyleSheet.create({
   leaderBoardContainer: {
     marginTop: screenHeight / 15,
     justifyContent: 'center',
-    alignContent: 'center',
+    alignItems: 'center',
   },
   leaderBoardTextContainer: {
     borderRadius,
@@ -53,10 +55,23 @@ export default StyleSheet.create({
     marginTop: screenHeight / 50,
     marginRight: screenWidth / 10,
     marginLeft: screenWidth / 10,
+    backgroundColor: quaternaryColor,
   },
   leaderBoardText: {
-    margin: screenHeight / 50,
-    color: primaryColor,
+    marginTop: screenHeight / 75,
+    marginBottom: screenHeight / 75,
+    marginLeft: screenHeight / 50,
+    marginRight: screenHeight / 50,
+    color: tertiaryColor,
+    fontSize: mediumFontSize,
+  },
+  lossOrWinAndTitleText: {
+    fontSize: mediumFontSize,
+    color: tertiaryColor,
+    marginTop: screenHeight / 50,
+  },
+  backToLobbyButton: {
+    color: tertiaryColor,
     fontSize: mediumFontSize,
   },
 });

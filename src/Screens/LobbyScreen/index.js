@@ -31,7 +31,7 @@ function LobbyScreen({
   };
 
   return (
-    <ScrollView>
+    <ScrollView style={styles.scrollView}>
       <View style={styles.lobbyFormContainer}>
         {users.activeUser === null ? (
           <Text>Loading.........</Text>
