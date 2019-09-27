@@ -45,7 +45,6 @@ export default StyleSheet.create({
 
   leaderBoardContainer: {
     marginTop: screenHeight / 15,
-    justifyContent: 'center',
     alignItems: 'center',
   },
   leaderBoardTextContainer: {
@@ -53,15 +52,13 @@ export default StyleSheet.create({
     borderColor: primaryColor,
     borderWidth: 1,
     marginTop: screenHeight / 50,
-    marginRight: screenWidth / 10,
-    marginLeft: screenWidth / 10,
     backgroundColor: quaternaryColor,
   },
   leaderBoardText: {
-    marginTop: screenHeight / 75,
-    marginBottom: screenHeight / 75,
-    marginLeft: screenHeight / 50,
-    marginRight: screenHeight / 50,
+    paddingTop: screenHeight / 75,
+    paddingBottom: screenHeight / 75,
+    paddingLeft: screenWidth / 50,
+    paddingRight: screenWidth / 50,
     color: tertiaryColor,
     fontSize: mediumFontSize,
   },
