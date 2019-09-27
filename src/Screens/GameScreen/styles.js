@@ -6,6 +6,9 @@ import {
   primaryColor,
   secondaryColor,
   largeFontSize,
+  borderRadius,
+  tertiaryColor,
+  quaternaryColor,
 } from '../../theme';
 
 export default StyleSheet.create({
@@ -20,15 +23,15 @@ export default StyleSheet.create({
   },
   gameTitle: {
     fontSize: mediumFontSize,
-    color: primaryColor,
+    color: tertiaryColor,
   },
   scoreText: {
     fontSize: largeFontSize,
-    color: primaryColor,
+    color: tertiaryColor,
   },
   activeUserText: {
     marginTop: screenHeight / 50,
-    color: primaryColor,
+    color: tertiaryColor,
     fontSize: mediumFontSize,
   },
   assetImagesContainer: {
@@ -38,5 +41,37 @@ export default StyleSheet.create({
     margin: screenWidth / 50,
     height: screenWidth / 5,
     width: screenWidth / 5,
+  },
+
+  leaderBoardContainer: {
+    marginTop: screenHeight / 15,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  leaderBoardTextContainer: {
+    borderRadius,
+    borderColor: primaryColor,
+    borderWidth: 1,
+    marginTop: screenHeight / 50,
+    marginRight: screenWidth / 10,
+    marginLeft: screenWidth / 10,
+    backgroundColor: quaternaryColor,
+  },
+  leaderBoardText: {
+    marginTop: screenHeight / 75,
+    marginBottom: screenHeight / 75,
+    marginLeft: screenHeight / 50,
+    marginRight: screenHeight / 50,
+    color: tertiaryColor,
+    fontSize: mediumFontSize,
+  },
+  lossOrWinAndTitleText: {
+    fontSize: mediumFontSize,
+    color: tertiaryColor,
+    marginTop: screenHeight / 50,
+  },
+  backToLobbyButton: {
+    color: tertiaryColor,
+    fontSize: mediumFontSize,
   },
 });

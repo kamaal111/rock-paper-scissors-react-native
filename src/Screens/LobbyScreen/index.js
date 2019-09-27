@@ -31,7 +31,7 @@ function LobbyScreen({
   };
 
   return (
-    <ScrollView>
+    <ScrollView style={styles.scrollView}>
       <View style={styles.lobbyFormContainer}>
         {users.activeUser === null ? (
           <Text>Loading.........</Text>
@@ -51,18 +51,19 @@ function LobbyScreen({
             <Text>Please create one to play</Text>
           </View>
         ) : (
-          lobbies.lobbyList.map(({ id, name, score, users: lobbyUsers }) => (
-            <Lobby
-              key={id}
-              io={io}
-              id={id}
-              name={name}
-              score={score}
-              amountOfUsers={lobbyUsers.length}
-              styles={lobbyStyles}
-              navigate={navigation.navigate}
-            />
-          ))
+          lobbies.lobbyList
+            .filter(lobby => lobby.users.length < 2)
+            .map(({ id, name, users: lobbyUsers }) => (
+              <Lobby
+                key={id}
+                io={io}
+                id={id}
+                name={name}
+                amountOfUsers={lobbyUsers.length}
+                styles={lobbyStyles}
+                navigate={navigation.navigate}
+              />
+            ))
         )}
       </View>
     </ScrollView>

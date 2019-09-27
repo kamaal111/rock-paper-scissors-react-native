@@ -1,42 +1,15 @@
 /* eslint-disable react/no-array-index-key */
 
 import React, { useEffect, useState } from 'react';
-import { Text, View, Image, TouchableOpacity } from 'react-native';
+import { View } from 'react-native';
 import { connect } from 'react-redux';
+
+import Leaderboard from '../../components/Leaderboard';
+import Game from '../../components/Game';
 
 import { getAllUsers } from '../../actions/users';
 
 import styles from './styles';
-
-function ImageView({
-  io,
-  lobbyId,
-  userId,
-  children,
-  turn,
-  setTurn,
-  setChoice,
-  chosenAsset,
-  assetId,
-}) {
-  return turn ? (
-    <TouchableOpacity
-      onPressIn={() => {
-        setTurn(false);
-        setChoice(assetId);
-        return io.emit('user-in-game-choice-from-client', {
-          userId,
-          lobbyId,
-          choice: chosenAsset,
-        });
-      }}
-    >
-      {children}
-    </TouchableOpacity>
-  ) : (
-    <View>{children}</View>
-  );
-}
 
 function GameScreen({
   users,
@@ -106,7 +79,7 @@ function GameScreen({
         setOpponentsChoice(winningCondition(assetChoice(choice)));
         return setTimeout(() => {
           setTurn(true);
-        }, 3000);
+        }, 1500);
       }
 
       if (other.id === users.activeUser.id) {
@@ -118,7 +91,7 @@ function GameScreen({
       setOpponentsChoice(winningChoice);
       return setTimeout(() => {
         setTurn(true);
-      }, 3000);
+      }, 1500);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [choice]);
@@ -143,70 +116,49 @@ function GameScreen({
     require('../../assets/scissors.png'),
   ];
 
+  const leaderBoardStyles = {
+    leaderBoardContainer: styles.leaderBoardContainer,
+    lossOrWinAndTitleText: styles.lossOrWinAndTitleText,
+    leaderBoardTextContainer: styles.leaderBoardTextContainer,
+    leaderBoardText: styles.leaderBoardText,
+  };
+
+  const gameStyle = {
+    gameContainer: styles.gameContainer,
+    gameTitle: styles.gameTitle,
+    scoreText: styles.scoreText,
+    activeUserText: styles.activeUserText,
+    assetImagesContainer: styles.assetImagesContainer,
+    assetImage: styles.assetImage,
+  };
+
   return (
     <View style={styles.screenContainer}>
       {score.split('-').some(point => Number(point) > 4) ? (
-        <View>
-          {users.allUsers === null ? (
-            <Text>loading...</Text>
-          ) : (
-            <View>
-              {users.allUsers.map(user => (
-                <View key={user.id}>
-                  <Text>{user.name}</Text>
-                  <Text>{user.score}</Text>
-                </View>
-              ))}
-            </View>
-          )}
-        </View>
+        <Leaderboard
+          styles={leaderBoardStyles}
+          navigate={navigation.navigate}
+          score={score.split('-')[0]}
+          allUsers={users.allUsers}
+        />
       ) : (
-        <View style={styles.gameContainer}>
-          <Text style={styles.gameTitle}>🔥ROCK PAPER SCISSORS🔥</Text>
-          <Text style={styles.scoreText}>{score}</Text>
-          <Text style={styles.activeUserText}>{users.activeUser.name}</Text>
-          {turn === false ? (
-            <></>
-          ) : (
-            <View style={styles.assetImagesContainer}>
-              {assets.map((asset, i) => (
-                <ImageView
-                  key={i}
-                  io={io}
-                  turn={turn}
-                  setTurn={setTurn}
-                  userId={users.activeUser.id}
-                  lobbyId={lobbyId}
-                  setChoice={setChoice}
-                  assetId={i}
-                  chosenAsset={assetChoice(i)}
-                >
-                  <Image source={asset} style={styles.assetImage} />
-                </ImageView>
-              ))}
-            </View>
-          )}
-          {choice === null ? (
-            <></>
-          ) : (
-            <Image source={assets[choice]} style={styles.assetImage} />
-          )}
-          {currentLobby.users.length < 2 ? (
-            <></>
-          ) : (
-            <>
-              {opponentsChoice === null ? (
-                <></>
-              ) : (
-                <Image
-                  source={assets[choiceToIndex(opponentsChoice)]}
-                  style={styles.assetImage}
-                />
-              )}
-              <Text style={styles.activeUserText}>{opponent.name}</Text>
-            </>
-          )}
-        </View>
+        <Game
+          styles={gameStyle}
+          score={score}
+          activeUser={users.activeUser}
+          turn={turn}
+          assets={assets}
+          io={io}
+          setTurn={setTurn}
+          lobbyId={lobbyId}
+          setChoice={setChoice}
+          assetChoice={assetChoice}
+          choice={choice}
+          users={currentLobby.users}
+          opponentsChoice={opponentsChoice}
+          choiceToIndex={choiceToIndex}
+          opponent={opponent}
+        />
       )}
     </View>
   );

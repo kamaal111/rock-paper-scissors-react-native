@@ -16,7 +16,7 @@ export default function Form({
         <Text style={styles.formText}>{formText}</Text>
 
         <TextInput
-          editable={true}
+          editable
           value={value}
           onChangeText={onChangeText}
           onEndEditing={onEndEditing}
